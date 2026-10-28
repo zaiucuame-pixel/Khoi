@@ -1,90 +1,300 @@
-<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Xưởng tái bản DNA</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f4f0e6;color:#183b4e;font-family:system-ui,sans-serif}header{background:#183b4e;color:#fff;padding:18px 6%;font-weight:900}main{max-width:1050px;margin:auto;padding:36px 20px 150px}.screen{display:none}.on{display:block}h1{font-size:clamp(45px,7vw,80px);line-height:1}h2{font-size:clamp(30px,4vw,48px)}p{line-height:1.6}.tag{font-size:12px;letter-spacing:.15em;color:#278b7b;font-weight:900}.btn{font:inherit;cursor:pointer;background:#ffc857;border:2px solid #183b4e;border-radius:12px;padding:14px 20px;font-weight:800;color:#183b4e;box-shadow:4px 4px #183b4e}.hero{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center;min-height:60vh}.machine{border:3px solid #183b4e;border-radius:24px;padding:28px;background:#38b7a0;box-shadow:8px 8px #b4d2c3}.window{border:3px solid #183b4e;border-radius:16px;background:#e2f2e9;padding:30px;text-align:center;font-size:66px}.belt{height:28px;border:3px solid #183b4e;border-radius:20px;background:repeating-linear-gradient(90deg,#183b4e 0 16px,#416778 16px 28px);margin-top:20px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card,.panel{background:#fffdf8;border:2px solid #183b4e;border-radius:18px;padding:20px;box-shadow:5px 5px #d1dacf}.card b{font-size:32px;color:#38b7a0}.alarm{text-align:center;border:3px solid #d94f4f;background:#fff4dc;border-radius:24px;padding:40px;max-width:700px;margin:7vh auto}.workspace{display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-top:25px}.tray{overflow:auto;background:#e3f1e9;border:2px dashed #89b6a6;border-radius:14px;padding:16px}.row{display:flex;gap:6px;align-items:center;margin:8px 0;min-width:365px}.label{width:90px;flex-shrink:0;font-size:12px;font-weight:800}.base{display:inline-grid;place-items:center;width:38px;height:40px;border:2px solid #183b4e;border-radius:8px;color:#fff;font-weight:900;flex-shrink:0;font-size:16px}.A{background:#4a90e2}.T{background:#c77718}.G{background:#7454ce}.C{background:#c44c56}.selected{outline:4px solid #ffc857}.wrong{outline:4px solid #d94f4f}.tabs,.palette{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{font:inherit;padding:10px;border:2px solid #183b4e;border-radius:9px;background:#f4f0e6;cursor:pointer}.tab.active{background:#38b7a0}.tab.done{background:#ccebd6}.palette button{width:48px;height:48px;cursor:pointer}.feedback{padding:14px;border-radius:10px;background:#edf3ec;min-height:55px}.bad{background:#ffe2df}.good{background:#d9f2df}.robot-wrap{position:fixed;right:12px;bottom:12px;display:flex;align-items:end;gap:8px}.bubble{background:white;border:2px solid #183b4e;border-radius:12px;padding:10px;max-width:190px;font-size:13px}.robot{font-size:26px;background:#38b7a0;border:3px solid #183b4e;border-radius:20px;width:64px;height:70px;cursor:pointer}.hidden{display:none}@media(max-width:750px){.hero,.cards,.workspace{grid-template-columns:1fr}.bubble{max-width:145px}}
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xưởng tái bản DNA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f0e6;color:#183b4e;font-family:system-ui,sans-serif}
+header{background:#183b4e;color:#fff;padding:18px 6%;font-weight:900}
+main{max-width:1050px;margin:auto;padding:36px 20px 150px}
+.screen{display:none}
+.on{display:block}
+h1{font-size:clamp(45px,7vw,80px);line-height:1}
+h2{font-size:clamp(30px,4vw,48px)}
+p{line-height:1.6}
+.tag{font-size:12px;letter-spacing:.15em;color:#278b7b;font-weight:900}
+.btn{font:inherit;cursor:pointer;background:#ffc857;border:2px solid #183b4e;border-radius:12px;padding:14px 20px;font-weight:800;color:#183b4e;box-shadow:4px 4px #183b4e}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center;min-height:60vh}
+.machine{border:3px solid #183b4e;border-radius:24px;padding:28px;background:#38b7a0;box-shadow:8px 8px #b4d2c3}
+.window{border:3px solid #183b4e;border-radius:16px;background:#e2f2e9;padding:30px;text-align:center;font-size:66px}
+.belt{height:28px;border:3px solid #183b4e;border-radius:20px;background:repeating-linear-gradient(90deg,#183b4e 0 16px,#416778 16px 28px);margin-top:20px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card,.panel{background:#fffdf8;border:2px solid #183b4e;border-radius:18px;padding:20px;box-shadow:5px 5px #d1dacf}
+.card b{font-size:32px;color:#38b7a0}
+.alarm{text-align:center;border:3px solid #d94f4f;background:#fff4dc;border-radius:24px;padding:40px;max-width:700px;margin:7vh auto}
+.workspace{display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-top:25px}
+.tray{overflow:auto;background:#e3f1e9;border:2px dashed #89b6a6;border-radius:14px;padding:16px}
+.row{display:flex;gap:6px;align-items:center;margin:8px 0;min-width:365px}
+.label{width:90px;flex-shrink:0;font-size:12px;font-weight:800}
+.base{display:inline-grid;place-items:center;width:38px;height:40px;border:2px solid #183b4e;border-radius:8px;color:#fff;font-weight:900;flex-shrink:0;font-size:16px}
+.A{background:#4a90e2}
+.T{background:#c77718}
+.G{background:#7454ce}
+.C{background:#c44c56}
+.selected{outline:4px solid #ffc857}
+.wrong{outline:4px solid #d94f4f}
+.tabs,.palette{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tab{font:inherit;padding:10px;border:2px solid #183b4e;border-radius:9px;background:#f4f0e6;cursor:pointer}
+.tab.active{background:#38b7a0}
+.tab.done{background:#ccebd6}
+.palette button{width:48px;height:48px;cursor:pointer}
+.feedback{padding:14px;border-radius:10px;background:#edf3ec;min-height:55px}
+.bad{background:#ffe2df}
+.good{background:#d9f2df}
+.robot-wrap{position:fixed;right:12px;bottom:12px;display:flex;align-items:end;gap:8px;z-index:5}
+.bubble{background:white;border:2px solid #183b4e;border-radius:12px;padding:10px;max-width:190px;font-size:13px}
+.robot{font-size:26px;background:#38b7a0;border:3px solid #183b4e;border-radius:20px;width:64px;height:70px;cursor:pointer}
+.hidden{display:none}
+.workhead{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.meter{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.meter span{border:2px solid #183b4e;border-radius:30px;padding:8px 13px;font-size:12px;font-weight:800;background:#fff}
+.meter .current{background:#38b7a0}
+.meter .complete{background:#d5efdf}
+.workpanel{background:#fffdf8;border:2px solid #183b4e;border-radius:20px;padding:22px;box-shadow:5px 5px #d1dacf;min-width:0}
+.workgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:20px}
+.workgrid>*{min-width:0}
+.scroll{overflow-x:auto;padding:6px 0}
+.strand{display:flex;gap:5px;align-items:center;min-width:540px;margin:8px 0}
+.strand .label{width:100px}
+.bondrow{display:flex;gap:5px;align-items:center;min-width:540px;padding-left:105px}
+.bond{width:38px;min-width:38px;height:30px;border:0;background:transparent;color:#183b4e;font-weight:bold;cursor:pointer}
+.bond.linked{background:#ffc857;border:2px solid #183b4e;border-radius:8px}
+.bond.removed{color:#8eaaa0}
+.base.empty{background:white;color:#183b4e;border-style:dashed}
+.base.extra{background:#183b4e;border-color:#d94f4f}
+.base.selected{outline:4px solid #ffc857}
+.choice{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.choice button{font:inherit;cursor:pointer;border:2px solid #183b4e;border-radius:9px;padding:10px 14px;background:#fff;font-weight:800}
+.choice button.picked{background:#ffc857}
+.choice .base{color:#fff;padding:0;min-width:48px;min-height:48px}
+.choice .base.A{background:#4a90e2}
+.choice .base.T{background:#c77718}
+.choice .base.G{background:#7454ce}
+.choice .base.C{background:#c44c56}
+.hintbox{border-radius:12px;background:#e7f4eb;padding:12px;line-height:1.5}
+.strandtag{font-size:11px;font-weight:800;padding:4px 7px;border-radius:7px;background:#d9eaf0}
+.newtag{background:#d7eee3}
+.counter{font-weight:800;color:#278b7b}
+.finish-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.base:focus-visible,.tab:focus-visible{outline:4px solid #ffc857;outline-offset:2px}
+@media(max-width:760px){
+.hero,.cards,.workgrid{grid-template-columns:minmax(0,1fr)}
+.bubble{max-width:145px}
+}
+</style>
+</head>
+<body>
+<header>✳ XƯỞNG DNA <span style="float:right">CA TRỰC 01</span></header>
+<main>
+<section id="start" class="screen on">
+<div class="hero">
+<div>
+<div class="tag">TRÒ CHƠI SINH HỌC · LỚP 9</div>
+<h1>XƯỞNG<br>TÁI BẢN <span style="color:#239e8b">DNA</span></h1>
+<p>Khám phá cách DNA được sao chép, rồi giúp robot sửa các mẫu gặp lỗi trong xưởng.</p>
+<button class="btn" onclick="alarm()">Bắt đầu ca trực →</button>
+</div>
+<div class="machine">
+<div class="window">🧬<p style="font-size:14px;font-weight:800">TRẠM LẮP RÁP PHÂN TỬ</p></div>
+<div class="belt"></div>
+</div>
+</div>
+</section>
 
-.workhead{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.meter{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.meter span{border:2px solid #183b4e;border-radius:30px;padding:8px 13px;font-size:12px;font-weight:800;background:#fff}.meter .current{background:#38b7a0}.meter .complete{background:#d5efdf}.workpanel{background:#fffdf8;border:2px solid #183b4e;border-radius:20px;padding:22px;box-shadow:5px 5px #d1dacf}.workgrid{display:grid;grid-template-columns:1fr 1.7fr;gap:20px}.scroll{overflow-x:auto;padding:6px 0}.strand{display:flex;gap:5px;align-items:center;min-width:540px;margin:8px 0}.strand .label{width:100px}.bondrow{display:flex;gap:5px;align-items:center;min-width:540px;padding-left:105px}.bond{width:38px;min-width:38px;height:30px;border:0;background:transparent;color:#183b4e;font-weight:bold;cursor:pointer}.bond.linked{background:#ffc857;border:2px solid #183b4e;border-radius:8px}.bond.removed{color:#8eaaa0}.base.empty{background:white;color:#183b4e;border-style:dashed}.base.extra{background:#183b4e;border-color:#d94f4f}.base.selected{outline:4px solid #ffc857}.choice{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.choice button{font:inherit;cursor:pointer;border:2px solid #183b4e;border-radius:9px;padding:10px 14px;background:#fff;font-weight:800}.choice button.picked{background:#ffc857}.hintbox{border-radius:12px;background:#e7f4eb;padding:12px;line-height:1.5}.strandtag{font-size:11px;font-weight:800;padding:4px 7px;border-radius:7px;background:#d9eaf0}.newtag{background:#d7eee3}.counter{font-weight:800;color:#278b7b}.robot-wrap{z-index:5}.finish-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}@media(max-width:760px){.workgrid{grid-template-columns:1fr}.strand{min-width:540px}.bondrow{min-width:540px}}
-.choice .base{color:#fff;padding:0;min-width:48px;min-height:48px}.choice .base.A{background:#4a90e2}.choice .base.T{background:#c77718}.choice .base.G{background:#7454ce}.choice .base.C{background:#c44c56}.workgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr)}.workgrid>*{min-width:0}.workpanel{min-width:0}.base:focus-visible,.tab:focus-visible{outline:4px solid #ffc857;outline-offset:2px}@media(max-width:760px){.workgrid{grid-template-columns:minmax(0,1fr)}} 
-.rep-figure{margin:18px 0 0;border:1px solid #aac7bc;border-radius:14px;background:#edf7ef;overflow:hidden}
-.rep-figure svg{display:block;width:100%;height:auto}
-.rep-figure figcaption{font-size:11px;line-height:1.5;padding:0 10px 8px;min-height:42px}
-.rep-controls{display:flex;gap:6px;padding:0 10px 10px}.rep-controls button{border:1px solid #183b4e;border-radius:7px;background:#fff;color:#183b4e;font:inherit;font-size:11px;padding:5px 8px;cursor:pointer}
-.rep-key{font-size:11px;padding:0 10px 8px;display:flex;gap:12px;flex-wrap:wrap}.rep-key span:before{content:"";display:inline-block;width:15px;height:4px;background:#183b4e;margin-right:4px;vertical-align:middle}.rep-key span:last-child:before{background:#189b82}
+<section id="alarm" class="screen">
+<div class="alarm">
+<div style="font-size:60px">🚨</div>
+<div class="tag">CẢNH BÁO · DÂY CHUYỀN DỪNG</div>
+<h2>Phát hiện lỗi!</h2>
+<p>Dây chuyền tái bản gặp lỗi ở ba trạm. Hãy sửa để tạo hai DNA con.</p>
+<button class="btn" onclick="go('game')">Kiểm tra sản phẩm →</button>
+</div>
+</section>
 
-.strand-legend{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;font-size:12px;font-weight:700}.strand-legend span{display:inline-flex;align-items:center;gap:6px}.strand-legend i{display:inline-block;width:26px;height:8px;border-radius:4px}.legend-old{background:#25875c}.legend-new{background:#c24444}
-.dna-bar{display:flex;align-items:center;justify-content:space-between;gap:5px;width:100%;min-width:425px;margin:14px 0;padding:10px 12px;border:3px solid transparent;border-radius:12px;cursor:pointer;box-shadow:0 3px 0 #183b4e33}
-.old-bar{background:#25875c;border-color:#17633f}.new-bar{background:#c24444;border-color:#922d2d}.bar-base{display:grid;place-items:center;flex:1;min-width:30px;height:32px;background:#fff;border:1px solid #183b4e50;border-radius:6px;color:#183b4e;font-weight:900;font-size:16px;pointer-events:none}.dna-bar:hover{filter:brightness(1.06)}.dna-bar.bar-selected{outline:4px solid #ffc857;outline-offset:2px}.dna-bar:focus-visible{outline:4px solid #ffc857;outline-offset:2px}
-</style><header>✳ XƯỞNG DNA <span style="float:right">CA TRỰC 01</span></header><main>
-<section id="start" class="screen on"><div class="hero"><div><div class="tag">TRÒ CHƠI SINH HỌC · LỚP 9</div><h1>XƯỞNG<br>TÁI BẢN <span style="color:#239e8b">DNA</span></h1><p>Khám phá cách DNA được sao chép, rồi giúp robot sửa các mẫu gặp lỗi trong xưởng.</p><button class="btn" onclick="go('learn')">Bắt đầu ca trực →</button></div><div class="machine"><div class="window">🧬<p style="font-size:14px;font-weight:800">TRẠM LẮP RÁP PHÂN TỬ</p></div><div class="belt"></div></div></div></section>
-<section id="learn" class="screen"><div class="tag">SỔ TAY KỸ THUẬT</div><h2>Ba trạm tái bản DNA</h2><p>Quan sát cách một phân tử DNA tạo ra hai phân tử con.</p><div class="cards"><article class="card"><b>01</b><h3>Tháo xoắn · Tách mạch</h3><p>DNA tháo xoắn. Hai mạch đơn tách ra, mỗi mạch trở thành một khuôn.</p><figure class="rep-figure"><svg id="rep-svg-0" viewBox="0 0 320 205" role="img" aria-label="Enzyme tháo xoắn tách hai mạch DNA"></svg><figcaption>Enzyme di chuyển → hai mạch gốc tách dần.</figcaption><div class="rep-key"><span>Mạch cũ</span><span>Mạch mới</span></div><div class="rep-controls"><button type="button" id="rep-toggle-0" onclick="toggleReplication(0)" aria-label="Tạm dừng hình động giai đoạn 1">Tạm dừng</button><button type="button" onclick="restartReplication(0)">Xem lại</button></div></figure></article><article class="card"><b>02</b><h3>Tổng hợp mạch mới</h3><p>Nucleotide ghép với mạch khuôn theo nguyên tắc bổ sung: <strong>A–T, G–C</strong>.</p><figure class="rep-figure"><svg id="rep-svg-1" viewBox="0 0 320 205" role="img" aria-label="Nucleotide tự do ghép vào hai mạch khuôn"></svg><figcaption>Phần bên trái đã tách: nucleotide ghép vào cả hai khuôn theo A–T, G–C.</figcaption><div class="rep-key"><span>Mạch cũ</span><span>Mạch mới</span></div><div class="rep-controls"><button type="button" id="rep-toggle-1" onclick="toggleReplication(1)" aria-label="Tạm dừng hình động giai đoạn 2">Tạm dừng</button><button type="button" onclick="restartReplication(1)">Xem lại</button></div></figure></article><article class="card"><b>03</b><h3>Kết thúc</h3><p>Tạo hai DNA con giống nhau và giống với DNA mẹ.</p><figure class="rep-figure"><svg id="rep-svg-2" viewBox="0 0 320 205" role="img" aria-label="Hai phân tử DNA con xoắn lại"></svg><figcaption>Mỗi DNA con gồm một mạch cũ và một mạch mới.</figcaption><div class="rep-key"><span>Mạch cũ</span><span>Mạch mới</span></div><div class="rep-controls"><button type="button" id="rep-toggle-2" onclick="toggleReplication(2)" aria-label="Tạm dừng hình động giai đoạn 3">Tạm dừng</button><button type="button" onclick="restartReplication(2)">Xem lại</button></div></figure></article></div><div class="belt"></div><p><button class="btn" onclick="alarm()">Đã hiểu · Vào xưởng →</button></p></section><section id="alarm" class="screen"><div class="alarm"><div style="font-size:60px">🚨</div><div class="tag">CẢNH BÁO · DÂY CHUYỀN DỪNG</div><h2>Phát hiện lỗi!</h2><p>Dây chuyền tái bản gặp lỗi ở ba trạm. Hãy sửa để tạo hai DNA con.</p><button class="btn" onclick="go('game')">Kiểm tra sản phẩm →</button></div></section>
-<section id="game" class="screen"><div class="tag">NHIỆM VỤ · KHÔI PHỤC DÂY CHUYỀN</div><div class="workhead"><div><h2>Ba nhiệm vụ sửa lỗi DNA</h2><p>Ba tình huống kiểm tra độc lập, cùng dựa trên DNA gốc 10 cặp nucleotide.</p></div><div class="counter" id="overall"></div></div><div class="meter" id="meter"></div><div class="workgrid"><aside class="panel"><b>PHÂN TỬ DNA GỐC</b><p>Đoạn mô phỏng gồm <b>10 cặp nucleotide</b>: mỗi mạch có 10 nucleotide.</p><div class="scroll" id="original"></div><p><b>A–T · G–C</b><br><small>Mỗi cột thể hiện một cặp nucleotide.</small></p><p><small>Mô hình đơn giản hóa: hai mạch gốc và hai mạch mới được gắn nhãn để dễ theo dõi.</small></p></aside><div class="workpanel"><div id="stage"></div><div class="feedback" id="feedback" aria-live="polite"></div><div class="choice"><button class="btn" id="next" onclick="nextStage()" hidden>Đến trạm tiếp theo →</button></div></div></div><div class="belt"></div></section><section id="finish" class="screen"><div class="alarm" style="border-color:#38b7a0"><div style="font-size:60px">⚙️✨</div><h2>Xưởng hoạt động trở lại!</h2><p>Bạn đã hoàn tất ba trạm và tạo hai DNA con.</p><p><b>THÁO XOẮN → BỔ SUNG → BÁN BẢO TOÀN</b></p><p>Mỗi DNA con gồm một mạch gốc và một mạch mới.</p><button class="btn" onclick="reset()">Chơi lại ↻</button></div></section></main><div class="robot-wrap"><div class="bubble" id="bubble" aria-live="polite">Chào bạn! Mình là Nô, robot phụ tá của xưởng.</div><button class="robot" onclick="document.getElementById('bubble').classList.toggle('hidden')" aria-label="Mở hoặc thu gọn lời robot">🤖<small>🧬</small></button></div><script>const one=[...'ATGCAGTCAG'],two=[...'TACGTCAGTC'],comp={A:'T',T:'A',G:'C',C:'G'};let stage,values,values2,selected,parts,pick,pairsVerified=false;
-function go(id){document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0)}
-function say(t){let b=document.getElementById('bubble');b.textContent=t;b.classList.remove('hidden')}
-function alarm(){go('alarm');say('Có ba loại lỗi cần sửa!');try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=740;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);o.start();o.stop(c.currentTime+.5)}catch(e){}}
-function tile(x){return '<span class="base '+x+'">'+x+'</span>'}function row(name,arr){return '<div class="strand"><span class="label">'+name+'</span>'+arr.map(tile).join('')+'</div>'}
-function init(){stage=0;pairsVerified=false;values=[...two];values[0]='G';values[3]='A';values[6]='T';values2=[...one];values2[1]='G';values2[4]='C';values2[8]='T';selected=null;parts=[['old1','old2'],['new2','new1']];pick=null;document.getElementById('original').innerHTML=row('Mạch gốc 1',one)+row('Mạch gốc 2',two);render()}
-function feedback(t,k=''){let f=document.getElementById('feedback');f.className='feedback '+k;f.textContent=t}
-function remaining(){return values.filter((v,i)=>v!==two[i]).length+((stage===0||stage===2)?values2.filter((v,i)=>v!==one[i]).length:0)}
-function render(){let names=['01 · Mẫu 1','02 · Bán bảo toàn','03 · Thiếu nucleotide'];document.getElementById('meter').innerHTML=names.map((t,i)=>'<span class="'+(i===stage?'current':i<stage?'complete':'')+'">'+(i<stage?'✓ ':'')+t+'</span>').join('');document.getElementById('overall').textContent='Nhiệm vụ '+(stage+1)+'/3';let e=document.getElementById('stage'),next=document.getElementById('next');next.hidden=true;next.textContent=stage===2?'Hoàn thành →':'Nhiệm vụ tiếp theo →';
-if(stage===0||stage===2){
-const sets=[{old:one,arr:values,target:two},{old:two,arr:values2,target:one}],missing=stage===2;
-e.innerHTML='<div class="tag">MẪU '+(stage+1)+'</div><h3>'+ (missing?'Hoàn thiện hai DNA con':'Kiểm tra hai phân tử DNA')+'</h3>'+sets.map((v,k)=>{
-let count=v.arr.filter((x,i)=>x!==v.target[i]).length;
-return '<div class="tray scroll" style="margin:14px 0"><b>Phân tử DNA con '+(k+1)+'</b><p class="counter">'+(missing?'Đã lắp':'Đã sửa')+' '+(3-count)+'/3 vị trí</p>'+row('Mạch gốc',v.old)+'<div class="strand"><span class="label">Mạch mới</span>'+v.arr.map((x,i)=>'<button class="base '+(x||'empty')+' '+(selected&&selected.molecule===k&&selected.index===i?'selected':'')+'" '+(missing&&x?'disabled':'')+' onclick="selectDNA('+k+','+i+')" aria-label="Phân tử '+(k+1)+', mạch mới, vị trí '+(i+1)+', '+(x||'trống')+'">'+(x||'＋')+'</button>').join('')+'</div></div>';
-}).join('')+'<div class="choice">'+['A','T','G','C'].map(x=>'<button class="base '+x+'" onclick="chooseBase(&quot;'+x+'&quot;)">'+x+'</button>').join('')+'</div><p class="counter">'+(missing?'Đã lắp':'Đã sửa')+' '+(6-remaining())+'/6 vị trí</p>';
-if(!remaining()){next.hidden=false;feedback('CHÍNH XÁC! Cả hai phân tử DNA đã được hoàn thiện.','good')}else feedback('');
+<section id="game" class="screen">
+<div class="tag">NHIỆM VỤ · KHÔI PHỤC DÂY CHUYỀN</div>
+<div class="workhead">
+<div>
+<h2>Ba nhiệm vụ sửa lỗi DNA</h2>
+<p>Ba tình huống kiểm tra độc lập, cùng dựa trên DNA gốc 10 cặp nucleotide.</p>
+</div>
+<div class="counter" id="overall"></div>
+</div>
+<div class="meter" id="meter"></div>
+<div class="workgrid">
+<aside class="panel">
+<b>PHÂN TỬ DNA GỐC</b>
+<p>Đoạn mô phỏng gồm <b>10 cặp nucleotide</b>: mỗi mạch có 10 nucleotide.</p>
+<div class="scroll" id="original"></div>
+<p><b>A–T · G–C</b><br><small>Mỗi cột thể hiện một cặp nucleotide.</small></p>
+<p><small>Mô hình đơn giản hóa: hai mạch gốc và hai mạch mới được gắn nhãn để dễ theo dõi.</small></p>
+</aside>
+<div class="workpanel">
+<div id="stage"></div>
+<div class="feedback" id="feedback" aria-live="polite">Hãy bắt đầu sửa lỗi.</div>
+<div class="choice">
+<button onclick="hint()">💡 Gợi ý</button>
+<button class="btn" id="next" onclick="nextStage()" hidden>Đến trạm tiếp theo →</button>
+</div>
+</div>
+</div>
+<div class="belt"></div>
+</section>
+
+<section id="finish" class="screen">
+<div class="alarm" style="border-color:#38b7a0">
+<div style="font-size:60px">⚙️✨</div>
+<h2>Xưởng hoạt động trở lại!</h2>
+<p>Bạn đã hoàn tất ba trạm và tạo hai DNA con.</p>
+<p><b>THÁO XOẮN → BỔ SUNG → BÁN BẢO TOÀN</b></p>
+<p>Mỗi DNA con gồm một mạch gốc và một mạch mới.</p>
+<button class="btn" onclick="reset()">Chơi lại ↻</button>
+</div>
+</section>
+</main>
+<div class="robot-wrap">
+<div class="bubble" id="bubble" aria-live="polite">Chào bạn! Mình là Nô, robot phụ tá của xưởng.</div>
+<button class="robot" onclick="document.getElementById('bubble').classList.toggle('hidden')" aria-label="Mở hoặc thu gọn lời robot">🤖<small>🧬</small></button>
+</div>
+
+<script>
+const one=[...'ATGCAGTCAG'],two=[...'TACGTCAGTC'],comp={A:'T',T:'A',G:'C',C:'G'};
+let stage,values,selected,parts,pick,pairsVerified=false;
+
+function go(id){
+ document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===id));
+ window.scrollTo(0,0);
 }
-else {const seq={old1:one,old2:two,new1:two,new2:one};
-e.innerHTML='<div class="tag">MẪU 2</div><h3>Ghép các thanh DNA</h3><div class="strand-legend"><span><i class="legend-old"></i>Thanh xanh: mạch cũ</span><span><i class="legend-new"></i>Thanh đỏ: mạch mới</span></div>'+parts.map((group,i)=>'<div class="tray scroll" style="margin:14px 0"><b>Phân tử DNA '+(i+1)+'</b>'+group.map((p,j)=>{const isOld=p.startsWith('old'),chosen=pick&&pick.i===i&&pick.j===j;return '<button type="button" class="dna-bar '+(isOld?'old-bar':'new-bar')+' '+(chosen?'bar-selected':'')+'" onclick="selectPart('+i+','+j+')" aria-pressed="'+!!chosen+'" aria-label="Thanh '+(isOld?'xanh, mạch cũ':'đỏ, mạch mới')+', trình tự '+seq[p].join(' ')+'">'+seq[p].map(v=>'<span class="bar-base">'+v+'</span>').join('')+'</button>'}).join('')+'</div>').join('')+'<button class="btn" onclick="checkPairs()">Kiểm tra hai phân tử</button>';
-feedback('')}
+function say(t){
+ let b=document.getElementById('bubble');
+ b.textContent=t;
+ b.classList.remove('hidden');
 }
-function selectDNA(molecule,index){selected={molecule,index};render();feedback('Đã chọn phân tử '+(molecule+1)+', vị trí '+(index+1)+'.')}
-function selectCell(i){selected=i;render();feedback('Đã chọn vị trí '+(i+1)+'. Chọn nucleotide phù hợp.')}
-function chooseBase(x){if(stage===0||stage===2){
-if(!selected||typeof selected!=='object'){feedback('Hãy chọn một vị trí ở mạch mới trước.','bad');return}
-const k=selected.molecule,i=selected.index,arr=k===0?values:values2,old=k===0?one:two,target=k===0?two:one;
-if(arr[i]===target[i]||x!==target[i]){feedback('SAI RỒI! Hãy kiểm tra lại vị trí và nucleotide đã chọn.','bad');say('Hãy đối chiếu với mạch gốc ngay phía trên nhé.');return}
-arr[i]=x;selected=null;render();feedback('CHÍNH XÁC! '+old[i]+' ghép với '+x+'.','good');say(remaining()?'Tiếp tục kiểm tra cả hai phân tử nhé.':'Cả hai phân tử đã được sửa đúng!');return}
-if(selected===null){feedback('Hãy chọn một vị trí trước.','bad');return}let i=selected;if(values[i]===two[i]||x!==two[i]){feedback('SAI RỒI! Kiểm tra vị trí và quy tắc A–T, G–C.','bad');say('Sai rồi! Hãy đối chiếu từng cặp nhé.');return}values[i]=x;selected=null;render();feedback('CHÍNH XÁC! '+one[i]+' ghép với '+x+'.','good');say('Chính xác!')}
-function selectPart(i,j){pairsVerified=false;if(!pick){pick={i,j};render();feedback('Đã chọn một thanh.');return}if(pick.i===i){pick={i,j};render();feedback('Đã chọn một thanh.');return}let p=parts[pick.i][pick.j];parts[pick.i][pick.j]=parts[i][j];parts[i][j]=p;pick=null;render();feedback('Đã đổi chỗ hai thanh.')}
-function checkPairs(){const seq={old1:one,old2:two,new1:two,new2:one};let ok=new Set(parts.flat()).size===4&&parts.every(p=>{let old=p.find(x=>x.startsWith('old')),fresh=p.find(x=>x.startsWith('new'));return old&&fresh&&seq[old].every((v,i)=>comp[v]===seq[fresh][i])});pairsVerified=ok;if(!ok){feedback('SAI RỒI! Mỗi sản phẩm cần một mạch cũ, một mạch mới và các cặp bổ sung đúng.','bad');say('Hãy kiểm tra nguồn gốc và trình tự từng mạch.');return}feedback('CHÍNH XÁC! Mỗi DNA con gồm một mạch cũ và một mạch mới bổ sung.','good');document.getElementById('next').hidden=false;say('Hai sản phẩm đều đúng nguyên tắc bán bảo toàn!')}
-function hint(){feedback(stage===0?'Quan sát từng cột ở cả hai phân tử. A ghép với T; G ghép với C.':stage===1?'Mỗi phân tử cần một thanh xanh và một thanh đỏ. Đối chiếu từng cột theo A–T, G–C để chọn hai thanh phù hợp.':'Mỗi ô trống cần một nucleotide bổ sung với chữ phía trên.')}
-function nextStage(){if(stage===1&&!pairsVerified)return;if(stage===0&&remaining())return;if(stage===2){if(!remaining())go('finish');return}stage++;selected=null;if(stage===2){values=[...two];values[1]=null;values[4]=null;values[8]=null;values2=[...one];values2[0]=null;values2[5]=null;values2[9]=null}render()}
-function reset(){init();say('Chào bạn! Mình là Nô, robot phụ tá của xưởng.');go('start')}init();
-;(()=> {
-const NS="http://www.w3.org/2000/svg", old="#183b4e", fresh="#189b82";
-const letters=[..."ATGCAGTCAG"], pair={A:"T",T:"A",G:"C",C:"G"}, colors={A:"#4a90e2",T:"#c77718",G:"#7454ce",C:"#c44c56"};
-const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const clocks=[0,0,0],paused=[reduced,reduced,reduced];let previous=0;
-const clamp=x=>Math.max(0,Math.min(1,x));
-const line=(x,y,X,Y,color,width=2)=>'<line x1="'+x+'" y1="'+y+'" x2="'+X+'" y2="'+Y+'" stroke="'+color+'" stroke-width="'+width+'" stroke-linecap="round"/>';
-const dot=(x,y,b,opacity=1)=>'<g opacity="'+opacity+'"><circle cx="'+x+'" cy="'+y+'" r="7" fill="'+colors[b]+'"/><text x="'+x+'" y="'+(y+3)+'" text-anchor="middle" font-size="8" font-weight="bold" fill="white">'+b+'</text></g>';
-const text=(x,y,s,size=11)=>'<text x="'+x+'" y="'+y+'" text-anchor="middle" fill="'+old+'" font-size="'+size+'">'+s+'</text>';
-const path=(pts,color)=>'<polyline points="'+pts.map(p=>p.join(",")).join(" ")+'" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round"/>';
-function drawSplit(t){
- const progress=clamp((t-.06)/.78),enzyme=35+progress*250;let a=[],b=[],svg=text(160,18,"ENZYME THÁO XOẮN");
- for(let j=0;j<10;j++){let x=40+j*26,open=clamp((enzyme-x)/32),y=82-32*open,z=110+32*open;a.push([x,y]);b.push([x,z]);if(open<.95)svg+=line(x,y+8,x,z-8,"#99b5a8",1.5);svg+=dot(x,y,letters[j])+dot(x,z,pair[letters[j]]);}
- svg=path(a,old)+path(b,old)+svg;
- svg+='<g transform="translate('+enzyme+',96)"><ellipse rx="15" ry="22" fill="#ffc857" stroke="'+old+'" stroke-width="2"/><path d="M-6 -9 L6 0 L-6 9" fill="none" stroke="'+old+'" stroke-width="3"/></g>';
- return svg+text(160,178,"Hai mạch gốc tách ở phía sau enzyme",10)+text(160,194,"Mô phỏng đơn giản hóa",9);
+function alarm(){
+ go('alarm');
+ say('Có ba loại lỗi cần sửa!');
+ try{
+  let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();
+  o.frequency.value=740;o.connect(g);g.connect(c.destination);
+  g.gain.setValueAtTime(.08,c.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);
+  o.start();o.stop(c.currentTime+.5)
+ }catch(e){}
 }
-function drawBuild(t){
- let svg=text(160,18,"A–T · G–C"),top=[],bottom=[];const step=clamp((t-.08)/.78)*5;
- for(let j=0;j<10;j++){let x=40+j*26,opened=j<5,y=opened?48:82,z=opened?142:110;top.push([x,y]);bottom.push([x,z]);if(!opened)svg+=line(x,y+8,x,z-8,"#99b5a8",1.5);svg+=dot(x,y,letters[j])+dot(x,z,pair[letters[j]]);
- if(opened){let f=clamp(step-j),ease=f*f*(3-2*f);if(f>0){let nx=18+(x-18)*ease,ny=184+(76-184)*ease,mx=302+(x-302)*ease,my=184+(114-184)*ease;svg+=dot(nx,ny,pair[letters[j]])+dot(mx,my,letters[j]);if(f>=.99){svg+=line(x,56,x,68,"#99b5a8",1)+line(x,122,x,134,"#99b5a8",1);if(j>0)svg+=line(x-19,76,x-7,76,fresh,3)+line(x-19,114,x-7,114,fresh,3);}}}}
- svg=path(top,old)+path(bottom,old)+svg;
- svg+=text(160,198,"Nucleotide tự do → mạch mới",10);
- ["A","T","G","C"].forEach((v,i)=>svg+=dot(108+i*29,178,v,.8));return svg;
+function tile(x){return '<span class="base '+x+'">'+x+'</span>'}
+function row(name,arr){
+ return '<div class="strand"><span class="label">'+name+'</span>'+arr.map(tile).join('')+'</div>'
 }
-function drawCoil(t){
- const amount=clamp((t-.1)/.72);let svg=text(160,17,"HAI PHÂN TỬ DNA CON");
- [65,150].forEach((cy,k)=>{let a=[],b=[],points=[];for(let j=0;j<10;j++){let x=43+j*26,angle=j*.66+amount*3.5;let offset=(1-amount)*16+amount*Math.cos(angle)*18;let y=cy-offset,z=cy+offset;a.push([x,y]);b.push([x,z]);points.push([x,y,z,j]);}
- svg+=path(a,old)+path(b,fresh);points.forEach(([x,y,z,j])=>{let v=k===0?letters[j]:pair[letters[j]];svg+=line(x,y,x,z,"#9cbaab",2);svg+='<circle cx="'+x+'" cy="'+y+'" r="3.5" fill="'+old+'"/><circle cx="'+x+'" cy="'+z+'" r="3.5" fill="'+fresh+'"/>';});svg+=text(160,cy+35,"DNA con "+(k+1),10);});return svg;
+function init(){
+ stage=0;pairsVerified=false;
+ values=[...two];values[0]='G';values[3]='A';values[6]='T';
+ selected=null;
+ parts=[['old1','old2'],['new2','new1']];
+ pick=null;
+ document.getElementById('original').innerHTML=row('Mạch gốc 1',one)+row('Mạch gốc 2',two);
+ render();
 }
-const drawers=[drawSplit,drawBuild,drawCoil];
-function label(i){let b=document.getElementById("rep-toggle-"+i);b.textContent=paused[i]?"Phát":"Tạm dừng";b.setAttribute("aria-label",(paused[i]?"Phát":"Tạm dừng")+" hình động giai đoạn "+(i+1));}
-window.toggleReplication=i=>{paused[i]=!paused[i];label(i)};
-window.restartReplication=i=>{clocks[i]=0;paused[i]=false;label(i);document.getElementById("rep-svg-"+i).innerHTML=drawers[i](0)};
-function loop(now){let dt=previous?Math.min(now-previous,100):0;previous=now;let visible=document.getElementById("learn").classList.contains("on")&&!document.hidden;
- if(visible){for(let i=0;i<3;i++){if(!paused[i])clocks[i]=(clocks[i]+dt)%8500;document.getElementById("rep-svg-"+i).innerHTML=drawers[i](clocks[i]/8500);}}requestAnimationFrame(loop);}
-for(let i=0;i<3;i++){document.getElementById("rep-svg-"+i).innerHTML=drawers[i](0);label(i)}requestAnimationFrame(loop);
-})();
-</script></html>
+function feedback(t,k=''){
+ let f=document.getElementById('feedback');f.className='feedback '+k;f.textContent=t;
+}
+function remaining(){return values.filter((v,i)=>v!==two[i]).length}
+function render(){
+ let names=['01 · Ghép sai','02 · Bán bảo toàn','03 · Thiếu nucleotide'];
+ document.getElementById('meter').innerHTML=names.map((t,i)=>'<span class="'+(i===stage?'current':i<stage?'complete':'')+'">'+(i<stage?'✓ ':'')+t+'</span>').join('');
+ document.getElementById('overall').textContent='Nhiệm vụ '+(stage+1)+'/3';
+ let e=document.getElementById('stage'),next=document.getElementById('next');
+ next.hidden=true;
+ next.textContent=stage===2?'Hoàn thành →':'Nhiệm vụ tiếp theo →';
+ if(stage===0||stage===2){
+  let title=stage===0?'Sửa ba cặp ghép sai':'Bổ sung nucleotide còn thiếu';
+  let info=stage===0?'Có đúng 3 cặp ghép sai. Chọn nucleotide sai ở mạch mới rồi chọn chữ đúng.':'Các ô trống là nucleotide bị thiếu. Chọn ô trống rồi chọn chữ bổ sung với mạch gốc.';
+  e.innerHTML='<div class="tag">NHIỆM VỤ 0'+(stage+1)+'</div><h3>'+title+'</h3><p>'+info+'</p><div class="tray scroll">'+row('Mạch gốc',one)+'<div class="strand"><span class="label">Mạch mới</span>'+values.map((v,i)=>'<button class="base '+(v||'empty')+' '+(selected===i?'selected':'')+'" onclick="selectCell('+i+')" aria-label="Mạch mới vị trí '+(i+1)+' '+(v||'trống')+'">'+(v||'＋')+'</button>').join('')+'</div></div><div class="choice">'+['A','T','G','C'].map(x=>'<button class="base '+x+'" onclick="chooseBase(&quot;'+x+'&quot;)">'+x+'</button>').join('')+'</div><p class="counter">Còn '+remaining()+' vị trí cần sửa</p>';
+  if(!remaining()){
+   next.hidden=false;
+   feedback('CHÍNH XÁC! Mạch mới đã bổ sung đúng với mạch gốc.','good');
+  }else feedback('Chọn vị trí, sau đó chọn nucleotide để sửa.');
+ }else{
+  const labels={old1:'Mạch cũ 1',old2:'Mạch cũ 2',new1:'Mạch mới 1',new2:'Mạch mới 2'},seq={old1:one,old2:two,new1:two,new2:one};
+  e.innerHTML='<div class="tag">NHIỆM VỤ 02 · BÁN BẢO TOÀN</div><h3>Tách và đổi chỗ hai mạch</h3><p>Hai sản phẩm đang ghép sai nguồn gốc mạch. Bấm một mạch trong mỗi sản phẩm để hoán đổi chúng, rồi bấm kiểm tra. Mỗi DNA con phải gồm một mạch cũ và một mạch mới bổ sung.</p>'+parts.map((pair,i)=>'<div class="tray scroll" style="margin:12px 0"><b>Sản phẩm '+(i+1)+'</b>'+pair.map((p,j)=>'<div><button class="tab '+(pick&&pick.i===i&&pick.j===j?'active':'')+'" onclick="selectPart('+i+','+j+')">'+labels[p]+'</button>'+row('',seq[p])+'</div>').join('')+'</div>').join('')+'<button class="btn" onclick="checkPairs()">Kiểm tra hai sản phẩm</button>';
+  feedback('Chọn một mạch ở sản phẩm 1 và một mạch ở sản phẩm 2 để đổi chỗ.');
+ }
+}
+function selectCell(i){
+ selected=i;render();
+ feedback('Đã chọn vị trí '+(i+1)+'. Chọn nucleotide phù hợp.');
+}
+function chooseBase(x){
+ if(selected===null){feedback('Hãy chọn một vị trí trước.','bad');return}
+ let i=selected;
+ if(values[i]===two[i]||x!==two[i]){
+  feedback('SAI RỒI! Kiểm tra vị trí và quy tắc A–T, G–C.','bad');
+  say('Sai rồi! Hãy đối chiếu từng cặp nhé.');
+  return;
+ }
+ values[i]=x;selected=null;render();
+ feedback('CHÍNH XÁC! '+one[i]+' ghép với '+x+'.','good');
+ say('Chính xác!');
+}
+function selectPart(i,j){
+ pairsVerified=false;
+ if(!pick){
+  pick={i,j};render();
+  feedback('Đã chọn một mạch. Chọn mạch ở sản phẩm còn lại.');
+  return;
+ }
+ if(pick.i===i){
+  pick={i,j};render();
+  feedback('Hãy chọn mạch ở sản phẩm còn lại.');
+  return;
+ }
+ let p=parts[pick.i][pick.j];
+ parts[pick.i][pick.j]=parts[i][j];
+ parts[i][j]=p;
+ pick=null;render();
+ feedback('Đã đổi chỗ hai mạch. Bấm kiểm tra để xem kết quả.');
+}
+function checkPairs(){
+ const seq={old1:one,old2:two,new1:two,new2:one};
+ let ok=new Set(parts.flat()).size===4&&parts.every(p=>{
+  let old=p.find(x=>x.startsWith('old')),fresh=p.find(x=>x.startsWith('new'));
+  return old&&fresh&&seq[old].every((v,i)=>comp[v]===seq[fresh][i]);
+ });
+ pairsVerified=ok;
+ if(!ok){
+  feedback('SAI RỒI! Mỗi sản phẩm cần một mạch cũ, một mạch mới và các cặp bổ sung đúng.','bad');
+  say('Hãy kiểm tra nguồn gốc và trình tự từng mạch.');
+  return;
+ }
+ feedback('CHÍNH XÁC! Mỗi DNA con gồm một mạch cũ và một mạch mới bổ sung.','good');
+ document.getElementById('next').hidden=false;
+ say('Hai sản phẩm đều đúng nguyên tắc bán bảo toàn!');
+}
+function hint(){
+ feedback(stage===0?'Tìm ba cột không tuân theo A–T, G–C.':stage===1?'Mạch mới 1 bổ sung với mạch cũ 1; mạch mới 2 bổ sung với mạch cũ 2.':'Mỗi ô trống cần một nucleotide bổ sung với chữ phía trên.');
+}
+function nextStage(){
+ if(stage===1&&!pairsVerified)return;
+ if(stage===0&&remaining())return;
+ if(stage===2){
+  if(!remaining())go('finish');
+  return;
+ }
+ stage++;selected=null;
+ if(stage===2){
+  values=[...two];
+  values[1]=null;values[4]=null;values[8]=null;
+ }
+ render();
+}
+function reset(){
+ init();
+ say('Chào bạn! Mình là Nô, robot phụ tá của xưởng.');
+ go('start');
+}
+init();
+</script>
+</body>
+</html>
+
