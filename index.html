@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="vi">
 <head>
@@ -53,7 +54,7 @@ p{line-height:1.6}
 .meter .current{background:#38b7a0}
 .meter .complete{background:#d5efdf}
 .workpanel{background:#fffdf8;border:2px solid #183b4e;border-radius:20px;padding:22px;box-shadow:5px 5px #d1dacf;min-width:0}
-.workgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+.workgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:20px}
 .workgrid>*{min-width:0}
 .scroll{overflow-x:auto;padding:6px 0}
 .strand{display:flex;gap:5px;align-items:center;min-width:540px;margin:8px 0}
@@ -124,6 +125,13 @@ p{line-height:1.6}
 </div>
 <div class="meter" id="meter"></div>
 <div class="workgrid">
+<aside class="panel">
+<b>PHÂN TỬ DNA GỐC</b>
+<p>Đoạn mô phỏng gồm <b>10 cặp nucleotide</b>: mỗi mạch có 10 nucleotide.</p>
+<div class="scroll" id="original"></div>
+<p><b>A–T · G–C</b><br><small>Mỗi cột thể hiện một cặp nucleotide.</small></p>
+<p><small>Mô hình đơn giản hóa: hai mạch gốc và hai mạch mới được gắn nhãn để dễ theo dõi.</small></p>
+</aside>
 <div class="workpanel">
 <div id="stage"></div>
 <div class="feedback" id="feedback" aria-live="polite">Hãy bắt đầu sửa lỗi.</div>
@@ -143,7 +151,7 @@ p{line-height:1.6}
 <p>Bạn đã hoàn tất ba trạm và tạo hai DNA con.</p>
 <p><b>THÁO XOẮN → BỔ SUNG → BÁN BẢO TOÀN</b></p>
 <p>Mỗi DNA con gồm một mạch gốc và một mạch mới.</p>
-<button class="btn" onclick="reset()">Kết thúc</button>
+<button class="btn" onclick="reset()">Chơi lại ↻</button>
 </div>
 </section>
 </main>
@@ -186,6 +194,7 @@ function init(){
  selected=null;
  parts=[['old1','old2'],['new2','new1']];
  pick=null;
+ document.getElementById('original').innerHTML=row('Mạch gốc 1',one)+row('Mạch gốc 2',two);
  render();
 }
 function feedback(t,k=''){
@@ -289,4 +298,5 @@ init();
 </script>
 </body>
 </html>
+
 
