@@ -199,7 +199,7 @@ p{line-height:1.6}
 <div class="meter" id="meter"></div>
 <div class="workgrid">
 <div class="workpanel">
-<section class="parent-model"><h3>DNA mẹ · 10 cặp nuclêôtit</h3><canvas id="parent3d" width="600" height="620" aria-label="DNA mẹ xoắn kép dựng thẳng, kéo để xoay"></canvas><button class="tab" onclick="dnaAngle=0;drawParent()">Đặt lại góc nhìn</button></section><div id="stage"></div>
+<section class="parent-model"><h3>DNA mẹ · 10 cặp nuclêôtit</h3><canvas id="parent3d" width="600" height="620" tabindex="0" role="img" aria-label="DNA mẹ xoắn kép dựng thẳng, kéo để xoay"></canvas><button class="tab" onclick="dnaAngle=0;drawParent()">Đặt lại góc nhìn</button></section><div id="stage"></div>
 <div class="feedback" id="feedback" aria-live="polite"></div>
 <div class="choice">
 <button class="btn" id="next" onclick="nextStage()" hidden>Đến trạm tiếp theo →</button>
@@ -231,6 +231,7 @@ const one=[...'ATGCAGTCAG'];
 const two=[...'TACGTCAGTC'];
 const comp={A:'T',T:'A',G:'C',C:'G'};
 let stage,values,values2,selected,parts,pick,wrong=null,pairsVerified=false;
+let submitted=false;
 
 function go(id){
  document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===id));
@@ -246,14 +247,7 @@ function say(t){
 function alarm(){
  go('alarm');
  say('Có ba loại lỗi cần sửa!');
- try{
-  let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();
-  o.frequency.value=740;
-  o.connect(g);g.connect(c.destination);
-  g.gain.setValueAtTime(.08,c.currentTime);
-  g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);
-  o.start();o.stop(c.currentTime+.5);
- }catch(e){}
+ playTone(740,.5,'sine');
 }
 
 function tile(x){
@@ -265,6 +259,7 @@ function row(name,arr){
 
 function init(){
  stage=0;
+ submitted=false;
  pairsVerified=false;
  values=[...two];
  values[0]='G';values[3]='A';values[6]='T';
@@ -318,13 +313,13 @@ function render(){
    let count=v.arr.filter((x,i)=>x!==v.target[i]).length;
    return '<div class="tray scroll" style="margin:14px 0">'+
    '<b>Phân tử DNA con '+(k+1)+'</b>'+
-   '<p class="counter">'+(missing?'Đã lắp':'Đã sửa')+' '+Math.max(0,3-count)+'/3 vị trí</p>'+
+   '<p class="counter">'+(submitted?'Cặp đúng: '+(10-count)+'/10':'10 cặp nuclêôtit')+'</p>'+
    row('Mạch gốc',v.old)+
    '<div class="strand"><span class="label">Mạch mới</span>'+
    v.arr.map((x,i)=>
     '<button class="base '+(x||'empty')+' '+
     (selected&&selected.molecule===k&&selected.index===i?'selected':'')+' '+
-    (wrong&&wrong.molecule===k&&wrong.index===i?'wrong':'')+
+    (submitted&&x!==v.target[i]?'wrong':'')+
     '" '+''+
     ' onclick="selectDNA('+k+','+i+')" aria-label="Phân tử '+
     (k+1)+', mạch mới, vị trí '+(i+1)+', '+(x||'trống')+'">'+
@@ -335,13 +330,9 @@ function render(){
   ['A','T','G','C'].map(x=>
    '<button class="base '+x+'" onclick="chooseBase(&quot;'+x+'&quot;)">'+x+'</button>'
   ).join('')+'</div>'+
-  '<p class="counter">'+(missing?'Đã lắp':'Đã sửa')+
-  ' '+Math.max(0,6-remaining())+'/6 vị trí</p>';
+  '<p class="counter">'+(submitted?'Cặp đúng: '+(20-remaining())+'/20':'')+'</p>';
 
-  if(!remaining()){
-   next.hidden=false;
-   feedback('CHÍNH XÁC! Cả hai phân tử DNA đã được hoàn thiện.','good');
-  }else feedback('');
+  feedback('');
  }else{
   const seq={old1:one,old2:two,new1:two,new2:one};
 
@@ -444,20 +435,29 @@ function checkPairs(){
 
 
 
-function errorBuzz(){
- try{const c=new(window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.value=105;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.09,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.45);o.start();o.stop(c.currentTime+.45);o.onended=()=>c.close();}catch(e){}
+let soundContext;
+function playTone(freq,duration,type){
+ try{
+ const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+ if(!soundContext||soundContext.state==='closed')soundContext=new AC();
+ const c=soundContext;
+ const emit=()=>{const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.07,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.start();o.stop(c.currentTime+duration);o.onended=()=>{o.disconnect();g.disconnect();};};
+ if(c.state==='suspended')c.resume().then(emit).catch(()=>{});else emit();
+ }catch(e){}
 }
+function errorBuzz(){playTone(105,.45,'sawtooth');}
 function nextStage(){
  if(stage===1)checkPairs();
  if((stage===1&&!pairsVerified)||(stage!==1&&remaining())){
- errorBuzz();feedback('SAI RỒI! Mẫu chưa hoàn chỉnh. Hãy sửa lại trước khi tiếp tục.','bad');say('SAI RỒI! Hãy sửa lại mẫu này.');return;
+ submitted=true;render();errorBuzz();feedback('SAI RỒI! Mẫu chưa hoàn chỉnh. Hãy sửa lại trước khi tiếp tục.','bad');say('SAI RỒI! Hãy sửa lại mẫu này.');return;
  }
  if(stage===2){go('finish');return;}
- stage++;selected=null;wrong=null;
+ stage++;selected=null;wrong=null;submitted=false;
  if(stage===2){values=[...two];values2=[...one];[1,4,8].forEach(i=>values[i]=null);[0,5,9].forEach(i=>values2[i]=null);}
  render();
 }
 function reset(){
+ dnaAngle=0;drawParent();
  init();
  say('Chào bạn! Mình là Nô, robot phụ tá của xưởng.');
  go('start');
@@ -605,7 +605,8 @@ function drawParent(){
 const pc=document.getElementById('parent3d');let dragX=null;
 pc.onpointerdown=e=>{dragX=e.clientX;pc.setPointerCapture(e.pointerId)};
 pc.onpointermove=e=>{if(dragX!==null){dnaAngle+=(e.clientX-dragX)*.018;dragX=e.clientX;drawParent();}};
-pc.onpointerup=pc.onpointercancel=()=>dragX=null;
+pc.onpointerup=pc.onpointercancel=pc.onlostpointercapture=()=>dragX=null;
+pc.onkeydown=e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();dnaAngle+=(e.key==='ArrowLeft'?-.15:.15);drawParent();}};
 drawParent();
 </script>
 </body>
