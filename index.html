@@ -451,8 +451,8 @@ function nextStage(){
  if((stage===1&&!pairsVerified)||(stage!==1&&remaining())){
  submitted=true;render();errorBuzz();feedback('SAI RỒI! Mẫu chưa hoàn chỉnh. Hãy sửa lại trước khi tiếp tục.','bad');say('SAI RỒI! Hãy sửa lại mẫu này.');return;
  }
- if(stage===2){go('finish');return;}
- stage++;selected=null;wrong=null;submitted=false;
+ if(stage===2){say('CHÍNH XÁC! Xưởng hoạt động trở lại!');go('finish');return;}
+ stage++;selected=null;wrong=null;submitted=false;say('Mẫu '+(stage+1)+' đã sẵn sàng.');
  if(stage===2){values=[...two];values2=[...one];[1,4,8].forEach(i=>values[i]=null);[0,5,9].forEach(i=>values2[i]=null);}
  render();
 }
