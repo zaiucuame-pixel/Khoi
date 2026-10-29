@@ -113,7 +113,28 @@ p{line-height:1.6}
 .wide-mission .strand .base{flex:0 0 38px}
 .workgrid{grid-template-columns:minmax(0,1fr)}
 }
-.parent-model{text-align:center;background:#e3f1e9;border:2px solid #183b4e;border-radius:16px;margin-bottom:24px;padding:14px}.parent-model canvas{display:block;width:min(100%,360px);height:auto;margin:auto;touch-action:none;cursor:grab}.parent-model canvas:active{cursor:grabbing}</style>
+.parent-model{text-align:center;background:#e3f1e9;border:2px solid #183b4e;border-radius:16px;margin-bottom:24px;padding:14px}.parent-model canvas{display:block;width:min(100%,360px);height:auto;margin:auto;touch-action:none;cursor:grab}.parent-model canvas:active{cursor:grabbing}
+main{max-width:1440px}
+.workpanel{display:grid;grid-template-columns:240px minmax(0,1fr);gap:18px 26px;align-items:start}
+.workpanel>.parent-model{grid-column:1;grid-row:1 / span 3}
+.workpanel>#stage,.workpanel>#feedback,.workpanel>.choice{grid-column:2;min-width:0}
+.parent-model{position:sticky;top:18px;border:0;border-radius:18px;background:radial-gradient(ellipse at 45% 40%,#f8fff9,#e6eee4 70%);margin:0;padding:20px 8px 14px;box-shadow:inset 0 0 0 1px #183b4e15}
+.parent-model h3{font-size:25px;margin:8px 0 0}
+.parent-model .tag{font-size:10px;letter-spacing:.13em}
+.parent-model canvas{width:100%;max-width:240px;aspect-ratio:520/880;height:auto}
+.model-actions{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+.model-actions .tab{font-size:11px;padding:8px;border:1px solid #183b4e33;background:#fff9}
+.workpanel>.choice{margin:0}
+.feedback:empty{display:none}
+@media(max-width:1000px){
+.workpanel{grid-template-columns:1fr;padding:14px}
+.workpanel>.parent-model,.workpanel>#stage,.workpanel>#feedback,.workpanel>.choice{grid-column:1;grid-row:auto}
+.parent-model{position:static;display:grid;grid-template-columns:115px 1fr;align-items:center;padding:8px 12px;text-align:left}
+.parent-model canvas{grid-column:1;grid-row:1 / span 3;width:110px}
+.parent-model .tag,.parent-model h3,.parent-model .model-actions{grid-column:2}
+.parent-model .model-actions{justify-content:flex-start}
+}
+</style>
 </head>
 <body>
 <header>✳ XƯỞNG DNA <span style="float:right">CA TRỰC 01</span></header>
@@ -192,14 +213,14 @@ p{line-height:1.6}
 <div class="workhead">
 <div>
 <h2>Ba nhiệm vụ sửa lỗi DNA</h2>
-<p>Ba tình huống kiểm tra độc lập, cùng dựa trên DNA gồm 10 cặp nuclêôtit.</p>
+
 </div>
 <div class="counter" id="overall"></div>
 </div>
 <div class="meter" id="meter"></div>
 <div class="workgrid">
 <div class="workpanel">
-<section class="parent-model"><h3>DNA mẹ · 10 cặp nuclêôtit</h3><canvas id="parent3d" width="600" height="620" tabindex="0" role="img" aria-label="DNA mẹ xoắn kép dựng thẳng, kéo để xoay"></canvas><button class="tab" onclick="dnaAngle=0;drawParent()">Đặt lại góc nhìn</button></section><div id="stage"></div>
+<section class="parent-model"><div class="tag">MẪU THAM CHIẾU</div><h3>DNA mẹ</h3><canvas id="parent3d" width="520" height="880" tabindex="0" role="img" aria-label="DNA mẹ xoắn kép tự xoay. Kéo hoặc dùng phím mũi tên để xoay."></canvas><div class="model-actions"><button class="tab" id="rotation" onclick="toggleRotation()" aria-pressed="false">Tạm dừng xoay</button><button class="tab" onclick="dnaAngle=0;drawParent()">Đặt lại góc</button></div></section><div id="stage"></div>
 <div class="feedback" id="feedback" aria-live="polite"></div>
 <div class="choice">
 <button class="btn" id="next" onclick="nextStage()" hidden>Đến trạm tiếp theo →</button>
@@ -246,7 +267,7 @@ function say(t){
 
 function alarm(){
  go('alarm');
- say('Có ba loại lỗi cần sửa!');
+ say('Xưởng cần kiểm tra lại sản phẩm.');
  playTone(740,.5,'sine');
 }
 
@@ -308,18 +329,18 @@ function render(){
 
   e.innerHTML=
   '<div class="tag">MẪU '+(stage+1)+'</div>'+
-  '<h3>'+(missing?'Hoàn thiện hai DNA con':'Kiểm tra hai phân tử DNA')+'</h3>'+
+  '<h3>Mẫu '+(stage+1)+'</h3>'+
   sets.map((v,k)=>{
    let count=v.arr.filter((x,i)=>x!==v.target[i]).length;
    return '<div class="tray scroll" style="margin:14px 0">'+
    '<b>Phân tử DNA con '+(k+1)+'</b>'+
-   '<p class="counter">'+(submitted?'Cặp đúng: '+(10-count)+'/10':'10 cặp nuclêôtit')+'</p>'+
+   
    row('Mạch gốc',v.old)+
    '<div class="strand"><span class="label">Mạch mới</span>'+
    v.arr.map((x,i)=>
     '<button class="base '+(x||'empty')+' '+
     (selected&&selected.molecule===k&&selected.index===i?'selected':'')+' '+
-    (submitted&&x!==v.target[i]?'wrong':'')+
+    ''+
     '" '+''+
     ' onclick="selectDNA('+k+','+i+')" aria-label="Phân tử '+
     (k+1)+', mạch mới, vị trí '+(i+1)+', '+(x||'trống')+'">'+
@@ -329,8 +350,7 @@ function render(){
   '<div class="choice">'+
   ['A','T','G','C'].map(x=>
    '<button class="base '+x+'" onclick="chooseBase(&quot;'+x+'&quot;)">'+x+'</button>'
-  ).join('')+'</div>'+
-  '<p class="counter">'+(submitted?'Cặp đúng: '+(20-remaining())+'/20':'')+'</p>';
+  ).join('')+'</div>';
 
   feedback('');
  }else{
@@ -338,7 +358,7 @@ function render(){
 
   e.innerHTML=
   '<div class="tag">MẪU 2</div>'+
-  '<h3>Ghép các thanh DNA</h3>'+
+  '<h3>Mẫu 2</h3>'+
   '<div class="strand-legend">'+
   '<span><i class="legend-old"></i>Thanh xanh: mạch cũ</span>'+
   '<span><i class="legend-new"></i>Thanh đỏ: mạch mới</span></div>'+
@@ -424,11 +444,11 @@ function checkPairs(){
  pairsVerified=ok;
 
  if(!ok){
-  feedback('SAI RỒI! Mỗi sản phẩm cần một mạch cũ, một mạch mới và các cặp bổ sung đúng.','bad');
-  say('SAI RỒI! Hãy kiểm tra nguyên tắc bổ sung nhé.');
+  feedback('Mạch vẫn còn lỗi.','bad');
+  say('Mạch vẫn còn lỗi.');
   return;
  }
- feedback('CHÍNH XÁC! Mỗi DNA con gồm một mạch cũ và một mạch mới bổ sung.','good');
+ feedback('Mẫu đã hoàn chỉnh.','good');
  document.getElementById('next').hidden=false;
  say('CHÍNH XÁC! Mẫu này đã hoạt động tốt.');
 }
@@ -449,7 +469,7 @@ function errorBuzz(){playTone(105,.45,'sawtooth');}
 function nextStage(){
  if(stage===1)checkPairs();
  if((stage===1&&!pairsVerified)||(stage!==1&&remaining())){
- submitted=true;render();errorBuzz();feedback('SAI RỒI! Mẫu chưa hoàn chỉnh. Hãy sửa lại trước khi tiếp tục.','bad');say('SAI RỒI! Hãy sửa lại mẫu này.');return;
+ submitted=true;render();errorBuzz();feedback('Mạch vẫn còn lỗi.','bad');say('Mạch vẫn còn lỗi.');return;
  }
  if(stage===2){say('CHÍNH XÁC! Xưởng hoạt động trở lại!');go('finish');return;}
  stage++;selected=null;wrong=null;submitted=false;say('Mẫu '+(stage+1)+' đã sẵn sàng.');
@@ -591,28 +611,66 @@ init();
  requestAnimationFrame(loop);
 })();
 
-let dnaAngle=0;
+
+let dnaAngle=0,autoRotate=!window.matchMedia('(prefers-reduced-motion: reduce)').matches,dragX=null;
+const pc=document.getElementById('parent3d'),ctx=pc.getContext('2d');
+function toggleRotation(){autoRotate=!autoRotate;syncRotation();}
+function syncRotation(){const b=document.getElementById('rotation');b.textContent=autoRotate?'Tạm dừng xoay':'Tự xoay';b.setAttribute('aria-pressed',String(!autoRotate));}
 function drawParent(){
- const cv=document.getElementById('parent3d'),ctx=cv.getContext('2d');ctx.clearRect(0,0,600,620);
- const colors={A:'#4a90e2',T:'#c77718',G:'#7454ce',C:'#c44c56'};
- const pts=[[],[]];
- for(let i=0;i<10;i++){const a=i*Math.PI*2/10+dnaAngle;
- for(let s=0;s<2;s++){const t=a+s*Math.PI;pts[s].push({x:300+115*Math.cos(t),y:65+i*54,z:Math.sin(t),b:(s?two:one)[i]});}}
- for(let s=0;s<2;s++){ctx.beginPath();pts[s].forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=s?'#38b7a0':'#183b4e';ctx.lineWidth=9;ctx.stroke();}
- for(let i=0;i<10;i++){const p=pts[0][i],q=pts[1][i];ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='#879f9b';ctx.lineWidth=5;ctx.stroke();}
- pts.flat().sort((a,b)=>a.z-b.z).forEach(p=>{const r=16+3*p.z;ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);const grad=ctx.createRadialGradient(p.x-5,p.y-6,1,p.x,p.y,r);grad.addColorStop(0,'white');grad.addColorStop(.35,colors[p.b]);grad.addColorStop(1,'#183b4e');ctx.fillStyle=grad;ctx.fill();ctx.fillStyle='white';ctx.font='bold 19px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.b,p.x,p.y);});
+ if(!ctx)return;
+ ctx.clearRect(0,0,520,880);
+ // Perspective projection of a continuous double helix; both backbones have the same material.
+ const colors={A:[74,144,226],T:[199,119,24],G:[116,84,206],C:[196,76,86]},backbone=[37,133,124];
+ const project=(x,y,z)=>{
+  const tx=x*Math.cos(dnaAngle)+z*Math.sin(dnaAngle),tz=-x*Math.sin(dnaAngle)+z*Math.cos(dnaAngle);
+  const yy=y*Math.cos(.14)-tz*Math.sin(.14),zz=y*Math.sin(.14)+tz*Math.cos(.14);
+  const tilt=-.105,xx=tx*Math.cos(tilt)-yy*Math.sin(tilt),yyy=tx*Math.sin(tilt)+yy*Math.cos(tilt);
+  const scale=900/(900-zz);
+  return {x:260+xx*scale,y:423+yyy*scale,z:zz,scale};
+ };
+ const helix=(t,s)=>{const a=t*Math.PI*2+s*Math.PI;return [105*Math.cos(a),(t-.5)*650,105*Math.sin(a)]};
+ const items=[];
+ const rod=(p,q,r,color)=>{const a=project(...p),b=project(...q);items.push({a,b,r:r*(a.scale+b.scale)/2,color,z:(a.z+b.z)/2})};
+ for(let s=0;s<2;s++)for(let j=0;j<200;j++)rod(helix(j/200,s),helix((j+1)/200,s),11,backbone);
+ for(let i=0;i<10;i++){
+  const t=i/10,p=helix(t,0),q=helix(t,1),mid=p.map((v,j)=>(v+q[j])/2);
+  for(let s=0;s<2;s++){
+   const a=s?q:p,b=mid,c=colors[(s?two:one)[i]];
+   for(let j=0;j<16;j++)rod(a.map((v,k)=>v+(b[k]-v)*j/16),a.map((v,k)=>v+(b[k]-v)*(j+1)/16),6,c);
+   const v=project(...a);items.push({sphere:true,a:v,r:14*v.scale,color:backbone,z:v.z});
+   const lp=a.map((v,k)=>v*.7+mid[k]*.3),pos=project(...lp);
+   items.push({label:(s?two:one)[i],a:pos,z:pos.z+2});
+  }
+ }
+ const shadow=ctx.createRadialGradient(268,813,4,268,813,140);shadow.addColorStop(0,'#183b4e25');shadow.addColorStop(1,'#183b4e00');
+ ctx.save();ctx.translate(0,635);ctx.scale(1,.22);ctx.fillStyle=shadow;ctx.fillRect(90,650,350,300);ctx.restore();
+ const shade=(c,f)=>'rgb('+c.map(v=>Math.round(Math.max(0,Math.min(255,v*f)))).join(',')+')';
+ items.sort((a,b)=>a.z-b.z).forEach(o=>{
+  const a=o.a;
+  if(o.label){ctx.font='bold 17px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.strokeStyle='#183b4e99';ctx.lineWidth=3;ctx.strokeText(o.label,a.x,a.y);ctx.fillStyle='#fff';ctx.fillText(o.label,a.x,a.y);return}
+  const brightness=.83+(o.z+150)/650;
+  if(o.sphere){
+   const g=ctx.createRadialGradient(a.x-o.r*.38,a.y-o.r*.4,o.r*.05,a.x,a.y,o.r);
+   g.addColorStop(0,'#d7fff2');g.addColorStop(.3,shade(o.color,brightness*1.5));g.addColorStop(1,shade(o.color,.38));
+   ctx.beginPath();ctx.arc(a.x,a.y,o.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();return;
+  }
+  const dx=o.b.x-a.x,dy=o.b.y-a.y,len=Math.hypot(dx,dy)||1,nx=-dy/len*o.r,ny=dx/len*o.r;
+  const g=ctx.createLinearGradient(a.x-nx,a.y-ny,a.x+nx,a.y+ny);
+  g.addColorStop(0,shade(o.color,.4));g.addColorStop(.32,shade(o.color,brightness*1.5));g.addColorStop(.52,shade(o.color,brightness*1.1));g.addColorStop(1,shade(o.color,.48));
+  ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(o.b.x,o.b.y);ctx.strokeStyle=g;ctx.lineWidth=o.r*2;ctx.lineCap='round';ctx.stroke();
+ });
 }
-const pc=document.getElementById('parent3d');let dragX=null;
 pc.onpointerdown=e=>{dragX=e.clientX;pc.setPointerCapture(e.pointerId)};
-pc.onpointermove=e=>{if(dragX!==null){dnaAngle+=(e.clientX-dragX)*.018;dragX=e.clientX;drawParent();}};
+pc.onpointermove=e=>{if(dragX!==null){dnaAngle+=(e.clientX-dragX)*.015;dragX=e.clientX;drawParent()}};
 pc.onpointerup=pc.onpointercancel=pc.onlostpointercapture=()=>dragX=null;
-pc.onkeydown=e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();dnaAngle+=(e.key==='ArrowLeft'?-.15:.15);drawParent();}};
-drawParent();
+pc.onkeydown=e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();dnaAngle+=e.key==='ArrowLeft'?-.15:.15;drawParent()}};
+let parentFrameTime=0;
+function animateParent(now){
+ const dt=parentFrameTime?Math.min((now-parentFrameTime)/1000,.05):0;parentFrameTime=now;
+ if(!document.hidden&&document.getElementById('game').classList.contains('on')&&autoRotate&&dragX===null){dnaAngle=(dnaAngle+dt*.32)%(Math.PI*2);drawParent();}
+ requestAnimationFrame(animateParent);
+}
+syncRotation();drawParent();requestAnimationFrame(animateParent);
 </script>
 </body>
 </html>
-
-
-
-
-
