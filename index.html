@@ -113,7 +113,7 @@ p{line-height:1.6}
 .wide-mission .strand .base{flex:0 0 38px}
 .workgrid{grid-template-columns:minmax(0,1fr)}
 }
-</style>
+.parent-model{text-align:center;background:#e3f1e9;border:2px solid #183b4e;border-radius:16px;margin-bottom:24px;padding:14px}.parent-model canvas{display:block;width:min(100%,360px);height:auto;margin:auto;touch-action:none;cursor:grab}.parent-model canvas:active{cursor:grabbing}</style>
 </head>
 <body>
 <header>✳ XƯỞNG DNA <span style="float:right">CA TRỰC 01</span></header>
@@ -154,10 +154,10 @@ p{line-height:1.6}
 <article class="card">
 <b>02</b>
 <h3>Tổng hợp mạch mới</h3>
-<p>Nucleotide ghép với mạch khuôn theo nguyên tắc bổ sung: <strong>A–T, G–C</strong>.</p>
+<p>Nuclêôtit ghép với mạch khuôn theo nguyên tắc bổ sung: <strong>A–T, G–C</strong>.</p>
 <figure class="rep-figure">
-<svg id="rep-svg-1" viewBox="0 0 320 205" role="img" aria-label="Nucleotide tự do ghép vào hai mạch khuôn"></svg>
-<figcaption>Phần bên trái đã tách: nucleotide ghép vào cả hai khuôn theo A–T, G–C.</figcaption>
+<svg id="rep-svg-1" viewBox="0 0 320 205" role="img" aria-label="Nuclêôtit tự do ghép vào hai mạch khuôn"></svg>
+<figcaption>Phần bên trái đã tách: nuclêôtit ghép vào cả hai khuôn theo A–T, G–C.</figcaption>
 <div class="rep-key"><span>Mạch cũ</span><span>Mạch mới</span></div>
 </figure>
 </article>
@@ -192,14 +192,14 @@ p{line-height:1.6}
 <div class="workhead">
 <div>
 <h2>Ba nhiệm vụ sửa lỗi DNA</h2>
-<p>Ba tình huống kiểm tra độc lập, cùng dựa trên DNA gốc 10 cặp nucleotide.</p>
+<p>Ba tình huống kiểm tra độc lập, cùng dựa trên DNA gồm 10 cặp nuclêôtit.</p>
 </div>
 <div class="counter" id="overall"></div>
 </div>
 <div class="meter" id="meter"></div>
 <div class="workgrid">
 <div class="workpanel">
-<div id="stage"></div>
+<section class="parent-model"><h3>DNA mẹ · 10 cặp nuclêôtit</h3><canvas id="parent3d" width="600" height="620" aria-label="DNA mẹ xoắn kép dựng thẳng, kéo để xoay"></canvas><button class="tab" onclick="dnaAngle=0;drawParent()">Đặt lại góc nhìn</button></section><div id="stage"></div>
 <div class="feedback" id="feedback" aria-live="polite"></div>
 <div class="choice">
 <button class="btn" id="next" onclick="nextStage()" hidden>Đến trạm tiếp theo →</button>
@@ -230,7 +230,7 @@ p{line-height:1.6}
 const one=[...'ATGCAGTCAG'];
 const two=[...'TACGTCAGTC'];
 const comp={A:'T',T:'A',G:'C',C:'G'};
-let stage,values,values2,selected,parts,pick,pairsVerified=false;
+let stage,values,values2,selected,parts,pick,wrong=null,pairsVerified=false;
 
 function go(id){
  document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===id));
@@ -271,6 +271,7 @@ function init(){
  values2=[...one];
  values2[1]='G';values2[4]='C';values2[8]='T';
  selected=null;
+ wrong=null;
  parts=[['old1','old2'],['new2','new1']];
  pick=null;
  render();
@@ -283,12 +284,12 @@ function feedback(t,k=''){
 }
 
 function remaining(){
- return values.filter((v,i)=>v!==two[i]).length+
- ((stage===0||stage===2)?values2.filter((v,i)=>v!==one[i]).length:0);
+ return values.filter((v,i)=>v===null||v!==two[i]).length+
+ ((stage===0||stage===2)?values2.filter((v,i)=>v===null||v!==one[i]).length:0);
 }
 
 function render(){
- let names=['01 · Mẫu 1','02 · Bán bảo toàn','03 · Thiếu nucleotide'];
+ let names=['01 · Mẫu 1','02 · Mẫu 2','03 · Mẫu 3'];
 
  document.getElementById('meter').innerHTML=names.map((t,i)=>
  '<span class="'+(i===stage?'current':i<stage?'complete':'')+'">'+
@@ -300,7 +301,7 @@ function render(){
  let e=document.getElementById('stage');
  let next=document.getElementById('next');
  e.classList.toggle('wide-mission',stage===0||stage===2);
- next.hidden=true;
+ next.hidden=false;
  next.textContent=stage===2?'Hoàn thành →':'Nhiệm vụ tiếp theo →';
 
  if(stage===0||stage===2){
@@ -317,13 +318,14 @@ function render(){
    let count=v.arr.filter((x,i)=>x!==v.target[i]).length;
    return '<div class="tray scroll" style="margin:14px 0">'+
    '<b>Phân tử DNA con '+(k+1)+'</b>'+
-   '<p class="counter">'+(missing?'Đã lắp':'Đã sửa')+' '+(3-count)+'/3 vị trí</p>'+
+   '<p class="counter">'+(missing?'Đã lắp':'Đã sửa')+' '+Math.max(0,3-count)+'/3 vị trí</p>'+
    row('Mạch gốc',v.old)+
    '<div class="strand"><span class="label">Mạch mới</span>'+
    v.arr.map((x,i)=>
     '<button class="base '+(x||'empty')+' '+
-    (selected&&selected.molecule===k&&selected.index===i?'selected':'')+
-    '" '+(missing&&x?'disabled':'')+
+    (selected&&selected.molecule===k&&selected.index===i?'selected':'')+' '+
+    (wrong&&wrong.molecule===k&&wrong.index===i?'wrong':'')+
+    '" '+''+
     ' onclick="selectDNA('+k+','+i+')" aria-label="Phân tử '+
     (k+1)+', mạch mới, vị trí '+(i+1)+', '+(x||'trống')+'">'+
     (x||'＋')+'</button>'
@@ -334,7 +336,7 @@ function render(){
    '<button class="base '+x+'" onclick="chooseBase(&quot;'+x+'&quot;)">'+x+'</button>'
   ).join('')+'</div>'+
   '<p class="counter">'+(missing?'Đã lắp':'Đã sửa')+
-  ' '+(6-remaining())+'/6 vị trí</p>';
+  ' '+Math.max(0,6-remaining())+'/6 vị trí</p>';
 
   if(!remaining()){
    next.hidden=false;
@@ -373,6 +375,7 @@ function render(){
 
 function selectDNA(molecule,index){
  selected={molecule,index};
+ wrong=null;
  render();
  feedback('Đã chọn phân tử '+(molecule+1)+', vị trí '+(index+1)+'.');
 }
@@ -380,61 +383,36 @@ function selectDNA(molecule,index){
 function selectCell(i){
  selected=i;
  render();
- feedback('Đã chọn vị trí '+(i+1)+'. Chọn nucleotide phù hợp.');
+ feedback('Đã chọn vị trí '+(i+1)+'.');
 }
 
 function chooseBase(x){
- if(stage===0||stage===2){
-  if(!selected||typeof selected!=='object'){
-   feedback('Hãy chọn một vị trí ở mạch mới trước.','bad');
-   return;
-  }
-  const k=selected.molecule,i=selected.index;
-  const arr=k===0?values:values2;
-  const old=k===0?one:two;
-  const target=k===0?two:one;
-
-  if(arr[i]===target[i]||x!==target[i]){
-   feedback('SAI RỒI! Hãy kiểm tra lại vị trí và nucleotide đã chọn.','bad');
-   say('Hãy đối chiếu với mạch gốc ngay phía trên nhé.');
-   return;
-  }
-  arr[i]=x;
-  selected=null;
-  render();
-  feedback('CHÍNH XÁC! '+old[i]+' ghép với '+x+'.','good');
-  say(remaining()?'Tiếp tục kiểm tra cả hai phân tử nhé.':'Cả hai phân tử đã được sửa đúng!');
-  return;
- }
- if(selected===null){
-  feedback('Hãy chọn một vị trí trước.','bad');
-  return;
- }
- let i=selected;
- if(values[i]===two[i]||x!==two[i]){
-  feedback('SAI RỒI! Kiểm tra vị trí và quy tắc A–T, G–C.','bad');
-  say('Sai rồi! Hãy đối chiếu từng cặp nhé.');
-  return;
- }
- values[i]=x;
- selected=null;
- render();
- feedback('CHÍNH XÁC! '+one[i]+' ghép với '+x+'.','good');
- say('Chính xác!');
+ if(!selected||typeof selected!=='object'){feedback('Chưa chọn vị trí.','bad');return;}
+ const arr=selected.molecule===0?values:values2;
+ arr[selected.index]=x; selected=null;wrong=null;render();
+ feedback('Đã lắp nuclêôtit '+x+'.');
 }
-
 function selectPart(i,j){
  pairsVerified=false;
  if(!pick){
   pick={i,j};
   render();
-  feedback('Đã chọn một thanh.');
+  feedback('Đã chọn thanh.');
+  return;
+ }
+ if(pick.i===i&&pick.j===j){
+  pick=null;
+  render();
+  feedback('Đã bỏ chọn thanh.');
   return;
  }
  if(pick.i===i){
-  pick={i,j};
+  let p=parts[i][pick.j];
+  parts[i][pick.j]=parts[i][j];
+  parts[i][j]=p;
+  pick=null;
   render();
-  feedback('Đã chọn một thanh.');
+  feedback('Đã đổi chỗ hai thanh trong cùng một phân tử.');
   return;
  }
  let p=parts[pick.i][pick.j];
@@ -456,40 +434,29 @@ function checkPairs(){
 
  if(!ok){
   feedback('SAI RỒI! Mỗi sản phẩm cần một mạch cũ, một mạch mới và các cặp bổ sung đúng.','bad');
-  say('Hãy kiểm tra nguồn gốc và trình tự từng mạch.');
+  say('SAI RỒI! Hãy kiểm tra nguyên tắc bổ sung nhé.');
   return;
  }
  feedback('CHÍNH XÁC! Mỗi DNA con gồm một mạch cũ và một mạch mới bổ sung.','good');
  document.getElementById('next').hidden=false;
- say('Hai sản phẩm đều đúng nguyên tắc bán bảo toàn!');
+ say('CHÍNH XÁC! Mẫu này đã hoạt động tốt.');
 }
 
-function hint(){
- feedback(stage===0?
- 'Quan sát từng cột ở cả hai phân tử. A ghép với T; G ghép với C.':
- stage===1?
- 'Mỗi phân tử cần một thanh xanh và một thanh đỏ. Đối chiếu từng cột theo A–T, G–C để chọn hai thanh phù hợp.':
- 'Mỗi ô trống cần một nucleotide bổ sung với chữ phía trên.');
-}
 
+
+function errorBuzz(){
+ try{const c=new(window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.value=105;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.09,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.45);o.start();o.stop(c.currentTime+.45);o.onended=()=>c.close();}catch(e){}
+}
 function nextStage(){
- if(stage===1&&!pairsVerified)return;
- if(stage===0&&remaining())return;
- if(stage===2){
-  if(!remaining())go('finish');
-  return;
+ if(stage===1)checkPairs();
+ if((stage===1&&!pairsVerified)||(stage!==1&&remaining())){
+ errorBuzz();feedback('SAI RỒI! Mẫu chưa hoàn chỉnh. Hãy sửa lại trước khi tiếp tục.','bad');say('SAI RỒI! Hãy sửa lại mẫu này.');return;
  }
- stage++;
- selected=null;
- if(stage===2){
-  values=[...two];
-  values[1]=null;values[4]=null;values[8]=null;
-  values2=[...one];
-  values2[0]=null;values2[5]=null;values2[9]=null;
- }
+ if(stage===2){go('finish');return;}
+ stage++;selected=null;wrong=null;
+ if(stage===2){values=[...two];values2=[...one];[1,4,8].forEach(i=>values[i]=null);[0,5,9].forEach(i=>values2[i]=null);}
  render();
 }
-
 function reset(){
  init();
  say('Chào bạn! Mình là Nô, robot phụ tá của xưởng.');
@@ -574,7 +541,7 @@ init();
    }
   }
   svg=path(top,old)+path(bottom,old)+svg;
-  svg+=text(160,198,"Nucleotide tự do → mạch mới",10);
+  svg+=text(160,198,"Nuclêôtit tự do → mạch mới",10);
   ["A","T","G","C"].forEach((v,i)=>svg+=dot(108+i*29,178,v,.8));
   return svg;
  }
@@ -623,6 +590,23 @@ init();
  }
  requestAnimationFrame(loop);
 })();
+
+let dnaAngle=0;
+function drawParent(){
+ const cv=document.getElementById('parent3d'),ctx=cv.getContext('2d');ctx.clearRect(0,0,600,620);
+ const colors={A:'#4a90e2',T:'#c77718',G:'#7454ce',C:'#c44c56'};
+ const pts=[[],[]];
+ for(let i=0;i<10;i++){const a=i*Math.PI*2/10+dnaAngle;
+ for(let s=0;s<2;s++){const t=a+s*Math.PI;pts[s].push({x:300+115*Math.cos(t),y:65+i*54,z:Math.sin(t),b:(s?two:one)[i]});}}
+ for(let s=0;s<2;s++){ctx.beginPath();pts[s].forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=s?'#38b7a0':'#183b4e';ctx.lineWidth=9;ctx.stroke();}
+ for(let i=0;i<10;i++){const p=pts[0][i],q=pts[1][i];ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='#879f9b';ctx.lineWidth=5;ctx.stroke();}
+ pts.flat().sort((a,b)=>a.z-b.z).forEach(p=>{const r=16+3*p.z;ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);const grad=ctx.createRadialGradient(p.x-5,p.y-6,1,p.x,p.y,r);grad.addColorStop(0,'white');grad.addColorStop(.35,colors[p.b]);grad.addColorStop(1,'#183b4e');ctx.fillStyle=grad;ctx.fill();ctx.fillStyle='white';ctx.font='bold 19px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.b,p.x,p.y);});
+}
+const pc=document.getElementById('parent3d');let dragX=null;
+pc.onpointerdown=e=>{dragX=e.clientX;pc.setPointerCapture(e.pointerId)};
+pc.onpointermove=e=>{if(dragX!==null){dnaAngle+=(e.clientX-dragX)*.018;dragX=e.clientX;drawParent();}};
+pc.onpointerup=pc.onpointercancel=()=>dragX=null;
+drawParent();
 </script>
 </body>
 </html>
